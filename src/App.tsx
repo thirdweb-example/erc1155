@@ -117,7 +117,7 @@ export default function Home() {
               </h1>
               {contractMetadata.data?.description ||
               contractMetadata.isLoading ? (
-                <p className="text-gray-500 line-clamp-2">
+                <div className="text-gray-500 line-clamp-2">
                   {contractMetadata.isLoading ? (
                     <div
                       role="status"
@@ -132,7 +132,7 @@ export default function Home() {
                   ) : (
                     contractMetadata.data?.description
                   )}
-                </p>
+                </div>
               ) : null}
             </div>
             <div className="flex w-full gap-4">

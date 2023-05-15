@@ -22,7 +22,6 @@ export const Toast: React.FC<ToastProps> = ({
   showToast = false,
   setShowToast,
 }) => {
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowToast(false);
@@ -67,13 +66,15 @@ export const Toast: React.FC<ToastProps> = ({
                   </div>
                   <div className="ml-3 w-0 flex-1 pt-0.5">
                     <p className="text-sm font-medium text-gray-300">{title}</p>
-                    <p className="mt-1 text-sm text-gray-400 first-letter:uppercase">{description}</p>
+                    <p className="mt-1 text-sm text-gray-400 first-letter:uppercase">
+                      {description}
+                    </p>
                   </div>
                   {isClosable ? (
                     <div className="ml-4 flex flex-shrink-0">
                       <button
                         type="button"
-                        className="inline-flex rounded-md bg-gray-900 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-black-500 focus:ring-offset-2"
+                        className="focus:ring-black-500 inline-flex rounded-md bg-gray-900 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2"
                         onClick={() => {
                           setShowToast(false);
                         }}

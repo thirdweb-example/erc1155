@@ -5,22 +5,22 @@ import {
   useContractMetadata,
   useNFT,
   useTotalCirculatingSupply,
-} from '@thirdweb-dev/react';
-import { BigNumber } from 'ethers';
-import { useMemo } from 'react';
-import { ERC1155ClaimButton } from './components/Erc1155ClaimButton';
-import { HeadingImage } from './components/HeadingImage';
-import { PoweredBy } from './components/PoweredBy';
+} from "@thirdweb-dev/react";
+import { BigNumber } from "ethers";
+import { useMemo } from "react";
+import { ERC1155ClaimButton } from "./components/Erc1155ClaimButton";
+import { HeadingImage } from "./components/HeadingImage";
+import { PoweredBy } from "./components/PoweredBy";
 
 const urlParams = new URL(window.location.toString()).searchParams;
-const tokenId = urlParams.get('tokenId') || '0';
-const contractAddress = urlParams.get('contract') || '';
+const tokenId = urlParams.get("tokenId") || "0";
+const contractAddress = urlParams.get("contract") || "";
 
 export default function Home() {
   const contractQuery = useContract(contractAddress);
   const contractMetadata = useContractMetadata(contractQuery.contract);
   const nft = useNFT(contractQuery.contract, tokenId);
-  const theme = (urlParams.get('theme') || 'light') as 'dark' | 'light';
+  const theme = (urlParams.get("theme") || "light") as "dark" | "light";
   const root = window.document.documentElement;
   root.classList.add(theme);
 
@@ -49,7 +49,7 @@ export default function Home() {
   const numberTotal = useMemo(() => {
     const n = totalAvailableSupply.add(BigNumber.from(claimedSupply.data || 0));
     if (n.gte(1_000_000)) {
-      return '';
+      return "";
     }
     return n.toString();
   }, [totalAvailableSupply, claimedSupply]);
@@ -97,7 +97,7 @@ export default function Home() {
                 <p>
                   <span className="text-lg font-bold tracking-wider text-gray-500 xs:text-xl lg:text-2xl">
                     {numberClaimed}
-                  </span>{' '}
+                  </span>{" "}
                   <span className="text-lg font-bold tracking-wider xs:text-xl lg:text-2xl">
                     / {numberTotal} minted
                   </span>

@@ -1,4 +1,4 @@
-import { MediaRenderer } from '@thirdweb-dev/react';
+import { MediaRenderer } from "@thirdweb-dev/react";
 
 interface HeadingImage {
   src: string;

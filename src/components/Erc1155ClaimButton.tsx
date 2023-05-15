@@ -7,33 +7,33 @@ import {
   useClaimIneligibilityReasons,
   useTotalCirculatingSupply,
   Web3Button,
-} from '@thirdweb-dev/react';
-import { NFTDrop, SignatureDrop, TokenDrop } from '@thirdweb-dev/sdk';
-import { BigNumber, BigNumberish, utils } from 'ethers';
-import React, { useMemo, useState } from 'react';
-import { useDebounce } from '../hooks/useDebounce';
-import { parseIneligibility } from '../utils/parseIneligibility';
-import { useToast } from './ui/use-toast';
+} from "@thirdweb-dev/react";
+import { NFTDrop, SignatureDrop, TokenDrop } from "@thirdweb-dev/sdk";
+import { BigNumber, BigNumberish, utils } from "ethers";
+import React, { useMemo, useState } from "react";
+import { useDebounce } from "../hooks/useDebounce";
+import { parseIneligibility } from "../utils/parseIneligibility";
+import { useToast } from "./ui/use-toast";
 
 interface ClaimButtonProps {
   contract?: Exclude<DropContract, TokenDrop | SignatureDrop | NFTDrop>;
   tokenId: BigNumberish;
-  theme?: 'dark' | 'light';
+  theme?: "dark" | "light";
 }
 
 const urlParams = new URL(window.location.toString()).searchParams;
-const primaryColor = urlParams.get('primaryColor') || undefined;
+const primaryColor = urlParams.get("primaryColor") || undefined;
 
 const colors = {
-  purple: '#7C3AED',
-  blue: '#3B82F6',
-  orange: '#F59E0B',
-  pink: '#EC4899',
-  green: '#10B981',
-  red: '#EF4444',
-  teal: '#14B8A6',
-  cyan: '#22D3EE',
-  yellow: '#FBBF24',
+  purple: "#7C3AED",
+  blue: "#3B82F6",
+  orange: "#F59E0B",
+  pink: "#EC4899",
+  green: "#10B981",
+  red: "#EF4444",
+  teal: "#14B8A6",
+  cyan: "#22D3EE",
+  yellow: "#FBBF24",
 } as const;
 
 export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
@@ -51,12 +51,12 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
     address,
     tokenId,
   );
-  const claimerProofs = useClaimerProofs(contract, address || '', tokenId);
+  const claimerProofs = useClaimerProofs(contract, address || "", tokenId);
   const claimIneligibilityReasons = useClaimIneligibilityReasons(
     contract,
     {
       quantity: debouncedQuantity,
-      walletAddress: address || '',
+      walletAddress: address || "",
     },
     tokenId,
   );
@@ -77,7 +77,7 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
   const numberTotal = useMemo(() => {
     const n = totalAvailableSupply.add(BigNumber.from(claimedSupply.data || 0));
     if (n.gte(1_000_000)) {
-      return '';
+      return "";
     }
     return n.toString();
   }, [totalAvailableSupply, claimedSupply]);
@@ -123,7 +123,7 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
     const snapshotClaimable = claimerProofs.data?.maxClaimable;
 
     if (snapshotClaimable) {
-      if (snapshotClaimable === '0') {
+      if (snapshotClaimable === "0") {
         // allowed unlimited for the snapshot
         bnMaxClaimable = BigNumber.from(1_000_000);
       } else {
@@ -198,7 +198,7 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
   );
   const buttonText = useMemo(() => {
     if (isSoldOut) {
-      return 'Sold Out';
+      return "Sold Out";
     }
 
     if (canClaim) {
@@ -206,7 +206,7 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
         activeClaimCondition.data?.currencyMetadata.value || 0,
       );
       if (pricePerToken.eq(0)) {
-        return 'Mint (Free)';
+        return "Mint (Free)";
       }
       return `Mint (${priceToMint})`;
     }
@@ -214,10 +214,10 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
       return parseIneligibility(claimIneligibilityReasons.data, quantity);
     }
     if (buttonLoading) {
-      return 'Checking eligibility...';
+      return "Checking eligibility...";
     }
 
-    return 'Minting not available';
+    return "Minting not available";
   }, [
     isSoldOut,
     canClaim,
@@ -230,7 +230,7 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
 
   if (
     claimConditions.data?.length === 0 ||
-    claimConditions.data?.every(cc => cc.maxClaimableSupply === '0')
+    claimConditions.data?.every((cc) => cc.maxClaimableSupply === "0")
   ) {
     return (
       <span className="text-red-500">
@@ -274,7 +274,7 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
             -
           </button>
           <p className="flex h-full w-full items-center justify-center text-center font-mono dark:text-white lg:w-full">
-            {!isLoading && isSoldOut ? 'Sold Out' : quantity}
+            {!isLoading && isSoldOut ? "Sold Out" : quantity}
           </p>
           <button
             onClick={() => {
@@ -288,7 +288,7 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
               }
             }}
             className={
-              'flex h-full items-center justify-center rounded-r-md px-2 text-center text-2xl disabled:cursor-not-allowed disabled:text-gray-500 dark:text-white dark:disabled:text-gray-600'
+              "flex h-full items-center justify-center rounded-r-md px-2 text-center text-2xl disabled:cursor-not-allowed disabled:text-gray-500 dark:text-white dark:disabled:text-gray-600"
             }
             disabled={isSoldOut || quantity + 1 > maxClaimable}
           >
@@ -296,31 +296,31 @@ export const ERC1155ClaimButton: React.FC<ClaimButtonProps> = ({
           </button>
         </div>
         <Web3Button
-          contractAddress={contract?.getAddress() || ''}
+          contractAddress={contract?.getAddress() || ""}
           style={{
             backgroundColor:
               colors[primaryColor as keyof typeof colors] || primaryColor,
-            maxHeight: '43px',
+            maxHeight: "43px",
           }}
           theme={theme}
-          action={cntr => cntr.erc1155.claim(tokenId, quantity)}
+          action={(cntr) => cntr.erc1155.claim(tokenId, quantity)}
           isDisabled={!canClaim || buttonLoading}
-          onError={err => {
+          onError={(err) => {
             console.error(err);
             console.log({ err });
             toast({
-              title: 'Failed to mint drop',
-              description: (err as any).reason || '',
+              title: "Failed to mint drop",
+              description: (err as any).reason || "",
               duration: 9000,
-              variant: 'destructive',
+              variant: "destructive",
             });
           }}
           onSuccess={() => {
             toast({
-              title: 'Successfully minted',
-              description: 'The NFT has been transferred to your wallet',
+              title: "Successfully minted",
+              description: "The NFT has been transferred to your wallet",
               duration: 5000,
-              className: 'bg-green-500',
+              className: "bg-green-500",
             });
           }}
         >
